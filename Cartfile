@@ -1,1 +1,7 @@
-github "ReSwift/ReSwift" ~> 3.0.0
+# Locking ReSwift to this commit because we need some of the changes that
+# have made it into master after version 3.0.0, but we can't rely on
+# master's HEAD to be stable or not break this repo.
+#
+# TODO: Once the next version of ReSwift is shipped make sure to point ot
+# it and update what's required.
+github "ReSwift/ReSwift" "6161a8fc55d94c30c5c854c4b22a185074b1c75f"
