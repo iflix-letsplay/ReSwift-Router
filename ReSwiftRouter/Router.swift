@@ -91,6 +91,8 @@ open class Router<State: StateType>: StoreSubscriber {
                                         animated: state.changeRouteAnimated) {
                                             semaphore.signal()
                             }
+
+                            self.routables.remove(at: responsibleRoutableIndex + 1)
                         } else {
                             semaphore.signal()
                         }
