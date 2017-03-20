@@ -15,7 +15,7 @@ open class Router<State: StateType>: StoreSubscriber {
 
     var store: Store<State>
     var lastNavigationState = NavigationState()
-    var routables: [Routable] = []
+    public var routables: [Routable] = []
     let waitForRoutingCompletionQueue = DispatchQueue(label: "WaitForRoutingCompletionQueue", attributes: [])
 
     public init(store: Store<State>, rootRoutable: Routable,  stateSelector: @escaping NavigationStateSelector) {
