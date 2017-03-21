@@ -64,53 +64,38 @@ open class Router<State: StateType>: StoreSubscriber {
 
                 case let .pop(responsibleRoutableIndex, segmentToBePopped):
                     DispatchQueue.main.async {
-                        let routable = self.routables[responsibleRoutableIndex]
-                        if routable.canPop(segment: segmentToBePopped) {
-                            routable
-                                .popRouteSegment(
-                                    segmentToBePopped,
-                                    animated: state.changeRouteAnimated) {
-                                        semaphore.signal()
-                            }
-
-                            self.routables.remove(at: responsibleRoutableIndex + 1)
-                        } else {
-                            semaphore.signal()
+                        self.routables[responsibleRoutableIndex]
+                            .popRouteSegment(
+                                segmentToBePopped,
+                                animated: state.changeRouteAnimated) {
+                                    semaphore.signal()
                         }
+
+                        self.routables.remove(at: responsibleRoutableIndex + 1)
                     }
 
                 case let .change(responsibleRoutableIndex, segmentToBeReplaced, newSegment):
                     DispatchQueue.main.async {
-                        let routable = self.routables[responsibleRoutableIndex]
-                        if routable.canChange(segment: newSegment) {
-                            self.routables[responsibleRoutableIndex] =
-                                routable
-                                    .changeRouteSegment(
-                                        segmentToBeReplaced,
-                                        to: newSegment,
-                                        animated: state.changeRouteAnimated) {
-                                            semaphore.signal()
-                            }
-                        } else {
-                            semaphore.signal()
+                        self.routables[responsibleRoutableIndex + 1] =
+                            self.routables[responsibleRoutableIndex]
+                                .changeRouteSegment(
+                                    segmentToBeReplaced,
+                                    to: newSegment,
+                                    animated: state.changeRouteAnimated) {
+                                        semaphore.signal()
                         }
                     }
 
                 case let .push(responsibleRoutableIndex, segmentToBePushed):
                     DispatchQueue.main.async {
-                        let routable = self.routables[responsibleRoutableIndex]
-                        if routable.canPush(segment: segmentToBePushed) {
-                            self.routables.append(
-                                routable
-                                    .pushRouteSegment(
-                                        segmentToBePushed,
-                                        animated: state.changeRouteAnimated) {
-                                            semaphore.signal()
-                                }
-                            )
-                        } else {
-                            semaphore.signal()
-                        }
+                        self.routables.append(
+                            self.routables[responsibleRoutableIndex]
+                                .pushRouteSegment(
+                                    segmentToBePushed,
+                                    animated: state.changeRouteAnimated) {
+                                        semaphore.signal()
+                            }
+                        )
                     }
                 }
 
@@ -135,7 +120,7 @@ open class Router<State: StateType>: StoreSubscriber {
 
     // MARK: Route Transformation Logic
 
-    static func largestCommonSubroute(_ oldRoute: Route, newRoute: Route) -> Int {
+    public static func largestCommonSubroute(_ oldRoute: Route, newRoute: Route) -> Int {
             var largestCommonSubroute = -1
 
             while largestCommonSubroute + 1 < newRoute.count &&
@@ -155,7 +140,7 @@ open class Router<State: StateType>: StoreSubscriber {
         return segment + 1
     }
 
-    public static func routingActionsForTransitionFrom(_ oldRoute: Route,
+    static func routingActionsForTransitionFrom(_ oldRoute: Route,
         newRoute: Route) -> [RoutingActions] {
 
             var routingActions: [RoutingActions] = []
