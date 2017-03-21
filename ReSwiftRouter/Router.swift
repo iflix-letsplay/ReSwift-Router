@@ -83,7 +83,7 @@ open class Router<State: StateType>: StoreSubscriber {
                     DispatchQueue.main.async {
                         let routable = self.routables[responsibleRoutableIndex]
                         if routable.canChange(segment: newSegment) {
-                            self.routables[responsibleRoutableIndex + 1] =
+                            self.routables[responsibleRoutableIndex] =
                                 routable
                                     .changeRouteSegment(
                                         segmentToBeReplaced,
@@ -91,8 +91,6 @@ open class Router<State: StateType>: StoreSubscriber {
                                         animated: state.changeRouteAnimated) {
                                             semaphore.signal()
                             }
-
-                            self.routables.remove(at: responsibleRoutableIndex + 1)
                         } else {
                             semaphore.signal()
                         }
