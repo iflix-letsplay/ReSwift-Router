@@ -140,7 +140,7 @@ open class Router<State: StateType>: StoreSubscriber {
         return segment + 1
     }
 
-    static func routingActionsForTransitionFrom(_ oldRoute: Route,
+    public static func routingActionsForTransitionFrom(_ oldRoute: Route,
         newRoute: Route) -> [RoutingActions] {
 
             var routingActions: [RoutingActions] = []
