@@ -31,7 +31,7 @@ open class Router<State: StateType>: StoreSubscriber {
             newRoute: route
         )
 
-        return routingActions.reduce(false) { canRoute, action in
+        return routingActions.reduce(true) { canRoute, action in
             switch action {
             case let .pop(responsibleRoutableIndex, segmentToBePopped):
                 let routable = self.routables[responsibleRoutableIndex]
