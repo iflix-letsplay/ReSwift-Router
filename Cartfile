@@ -4,4 +4,4 @@
 #
 # TODO: Once the next version of ReSwift is shipped make sure to point ot
 # it and update what's required.
-github "ReSwift/ReSwift" "6161a8fc55d94c30c5c854c4b22a185074b1c75f"
+github "iflix-letsplay/ReSwift" "swiftlint"
