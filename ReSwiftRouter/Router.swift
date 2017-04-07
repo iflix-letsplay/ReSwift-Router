@@ -35,13 +35,13 @@ open class Router<State: StateType>: StoreSubscriber {
             switch action {
             case let .pop(responsibleRoutableIndex, segmentToBePopped):
                 let routable = self.routables[responsibleRoutableIndex]
-                return canRoute || routable.canPop(segment: segmentToBePopped)
+                return canRoute && routable.canPop(segment: segmentToBePopped)
             case let .change(responsibleRoutableIndex, _, newSegment):
                 let routable = self.routables[responsibleRoutableIndex]
-                return canRoute || routable.canChange(segment: newSegment)
+                return canRoute && routable.canChange(segment: newSegment)
             case let .push(responsibleRoutableIndex, segmentToBePushed):
                 let routable = self.routables[responsibleRoutableIndex]
-                return canRoute || routable.canPush(segment: segmentToBePushed)
+                return canRoute && routable.canPush(segment: segmentToBePushed)
             }
         }
     }
